@@ -1,6 +1,6 @@
 import numpy as np
 import idyntree.bindings as iDynTree
-
+import copy 
 from enum import Enum
 # from adam.casadi.computations import KinDynComputations
 
@@ -25,8 +25,15 @@ class robot():
         mdlLoader.loadReducedModelFromFile(urdf_path, joints_list)
         if not self.kindyn.loadRobotModel(mdlLoader.model()):
             raise ValueError('Failed to load the robot model in iDynTree.')
+        self.initialize_buffer_variables()
 
-        # Initialize buffer variables
+    def __init__(self, kindyn:iDynTree.KinDynComputations):
+        self.kindyn = kindyn
+        self.ndof = kindyn.getNrOfDegreesOfFreedom()
+        self.initialize_buffer_variables()
+
+
+    def initialize_buffer_variables(self): 
         self.s = iDynTree.VectorDynSize(self.ndof)
         self.ds = iDynTree.VectorDynSize(self.ndof)
         self.H_b = iDynTree.Transform()
