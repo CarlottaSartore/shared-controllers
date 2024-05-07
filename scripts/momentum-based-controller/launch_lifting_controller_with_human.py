@@ -15,7 +15,7 @@ from wholebodycontrollib import statemachine
 from wholebodycontrollib import loggerplotterlib
 
 sys.path.append('..')
-import robots.ergoCubSN000.configuration as robot_configuration
+import robots.ergoCubGazeboV1.configuration as robot_configuration
 import robots.human.configuration as human_configuration
 from utils import configuration_hadler
 
@@ -134,7 +134,7 @@ wrench_qp = wholebodycontrol.WrenchQP()
 state_machine = statemachine.StateMachine(repeat=False)
 
 # Lifting configurations
-configurations = configuration_hadler.statemachine_configurations_generator(robot_configuration, model, ["hands_70", "hands_100"], [1 ,40])
+configurations = configuration_hadler.statemachine_configurations_generator(robot_configuration, model, ["hands_40", "hands_70"], [1 ,40])
 
 # Create selector matrix for the controlled joints
 B_ctrl =  np.block([[np.zeros([6, len(idx_torque_controlled_joints)])], [np.eye(len(idx_torque_controlled_joints))]])
